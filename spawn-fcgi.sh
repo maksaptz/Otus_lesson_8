@@ -1,11 +1,11 @@
 #!/bin/sh
 
-yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid -y
+yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid -y ### устанавливаем необходимые пакеты
 
-sed -i 's/#SOCKET/SOCKET/' /etc/sysconfig/spawn-fcgi 
-sed -i 's/#OPTIONS/OPTIONS/' /etc/sysconfig/spawn-fcgi
+sed -i 's/#SOCKET/SOCKET/' /etc/sysconfig/spawn-fcgi ### правим конфиг
+sed -i 's/#OPTIONS/OPTIONS/' /etc/sysconfig/spawn-fcgi ### правим конфиг
 
-cat << EOF > /etc/systemd/system/spawn-fcgi.service
+cat << EOF > /etc/systemd/system/spawn-fcgi.service ###  создаем юнит
 
 Description=Spawn-fcgi startup service by Otus
 After=network.target
@@ -21,5 +21,5 @@ KillMode=process
 WantedBy=multi-user.target
 EOF
 
-systemctl daemon-reload
-systemctl start spawn-fcgi
+systemctl daemon-reload ### перечитываем юниты
+systemctl start spawn-fcgi ###стартуем наш новый юнит
